@@ -1,0 +1,50 @@
+package com.example.studentplacement.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import com.example.studentplacement.entity.Student;
+import com.example.studentplacement.service.StudentService;
+
+@RestController
+@RequestMapping("/students")
+@CrossOrigin(origins = "*")
+public class StudentController {
+
+    @Autowired
+    private StudentService studentService;
+    @PostMapping
+    public Student addStudent(@RequestBody Student student) {
+
+        return studentService.addStudent(student);
+    }
+    @GetMapping
+    public List<Student> getAllStudents() {
+
+        return studentService.getAllStudents();
+    }
+    @GetMapping("/{id}")
+    public Student getStudentById(@PathVariable Long id) {
+
+        return studentService.getStudentById(id);
+    }
+    @PutMapping("/{id}")
+    public Student updateStudent(
+            @PathVariable Long id,
+            @RequestBody Student student) {
+
+        return studentService.updateStudent(id, student);
+    }
+    @DeleteMapping("/{id}")
+    public String deleteStudent(@PathVariable Long id) {
+
+        boolean deleted = studentService.deleteStudent(id);
+
+        if (deleted) {
+            return "Student deleted successfully";
+        }
+
+        return "Student not found";
+    }
+}
